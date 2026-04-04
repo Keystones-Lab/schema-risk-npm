@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatReport, formatDriftReport, type OutputFormat } from '../src/formatters/index.js';
+import { formatReport, formatDriftReport } from '../src/formatters/index.js';
 import { RiskLevel } from '../src/types.js';
 import type { MigrationReport, DriftReport } from '../src/types.js';
 

@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // ─────────────────────────────────────────────────────────────────────────────
 // Schema-Risk CLI — Static analysis for PostgreSQL migration safety
 // ─────────────────────────────────────────────────────────────────────────────
@@ -13,7 +12,7 @@ import { scoreDeltas, buildReport } from '../rules/index.js';
 import { loadConfig, generateConfigFile } from '../config/index.js';
 import { formatReport, formatDriftReport, type OutputFormat } from '../formatters/index.js';
 import { riskGte, parseRiskLevel, RiskLevel } from '../types.js';
-import type { MigrationReport, SchemaRiskConfig } from '../types.js';
+import type { MigrationReport } from '../types.js';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -141,8 +140,8 @@ program
       }
 
       // ─── Config-based threshold ─────────────────────────────
-      if (!opts.failOn && config?.thresholds?.blockOn) {
-        const threshold = parseRiskLevel(config.thresholds.blockOn);
+      if (!opts.failOn && config?.thresholds?.failOn) {
+        const threshold = parseRiskLevel(config.thresholds.failOn);
         if (threshold !== undefined) {
           const maxReportLevel = reports.reduce(
             (max, r) => {
@@ -190,7 +189,7 @@ program
           const sql = readFileSync(f, 'utf-8');
           sim.simulate(parseSQL(sql));
         }
-        return sim.state;
+        return sim.getState();
       }
 
       const beforeState = buildState([before]);
