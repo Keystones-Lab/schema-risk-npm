@@ -1,0 +1,26 @@
+# schema-risk.yml — per-project SchemaRisk configuration
+# Copy this file to your project root and customise as needed.
+# Generate a fresh copy with: schema-risk init
+version: 2
+
+thresholds:
+  fail_on: high          # low | medium | high | critical
+  guard_on: medium       # operations at this level or above trigger guard prompts
+
+rules:
+  disabled: []           # e.g. [R03, R07]
+  table_overrides:
+    audit_log:
+      max_risk: critical
+    sessions:
+      ignored: true
+
+scan:
+  root_dir: "."
+  extensions: [rs, py, go, ts, js, rb, java, kt]
+  exclude: [target/, node_modules/, vendor/, .git/]
+
+output:
+  format: terminal       # terminal | json | markdown | sarif
+  color: true
+  show_recommendations: true
